@@ -15,6 +15,7 @@ message_table = db.messages
 
 app = Flask(__name__)
 
+#test
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
