@@ -1,0 +1,22 @@
+#logo {
+    max-height: 100px;
+}
+
+#chat-box {
+
+    /* 수평 가운데 정렬 (Flexbox 사용 시) */
+
+}
+
+.wrap {
+
+    width: 66vw;
+    margin: 0 auto;
+    align-self: center;
+    /* Flexbox 레이아웃 설정 (선택 사항) */
+
+}
+
+#header_box {
+    display: flex;
+}
