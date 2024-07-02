@@ -1,5 +1,5 @@
 
-const room_id = 1234;
+const room_id = "{{chatroom_id}}";
 // 유저 정보 모음 리스트 
 let users_in_room = [];
 
