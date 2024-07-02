@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- tailwind css -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <style>
+        #logo {
+            max-height: 100px;
+        }
+
+        #chat-box {
+
+            /* 수평 가운데 정렬 (Flexbox 사용 시) */
+
+        }
+
+        .wrap {
+
+            width: 66vw;
+            margin: 0 auto;
+            align-self: center;
+            /* Flexbox 레이아웃 설정 (선택 사항) */
+
+        }
+
+        #header_box {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap bg-base-300 rounded-box  h-screen">
+
+        <div id="header_box">
+            <img id="logo" class="" src="{{url_for('static',filename='profile/myProfile.jpg')}}" alt="">
+
+            <button class="btn btn-ghost btn-login">Ghost</button>
+        </div>
+
+        <div class="flex w-full flex-col border-opacity-50">
+            <div id="chat-box">
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let logined_uuid = 123456;
+    function makeMSG(uuid, name, image, time, message) {
+        if (logined_uuid != uuid) {
+            const chat_start =
+                `<div class="chat chat-start">
+            <div class="chat-image avatar">
+                <div class="w-10 rounded-full">
+                    <img alt="Tailwind CSS chat bubble component"
+                        src="{{url_for('static',filename="profile/${image}")}}" />
+                    </div>
+                </div>
+                <div class="chat-header">
+                    ${name}
+                    <time class="text-xs opacity-50">${time}</time>
+                </div>
+                <div class="chat-bubble">${message}</div>
+        </div>`;
+        } else {
+            const chat_end = `
+            <div class="chat chat-end">
+            <div class="chat-image avatar">
+                <div class="w-10 rounded-full">
+                    <img alt="Tailwind CSS chat bubble component"
+                        src="{{url_for('static',filename="profile/${image}")}}" />
+                </div>
+            </div>
+            <div class="chat-header">
+                ${name}
+                <time class="text-xs opacity-50">${time}</time>
+            </div>
+            <div class="chat-bubble">${message}</div>
+            </div>`;
+        }
+    }
+    function addMSG() {
+        let chat_box = $("#chat-box")
+    }
+    setInterval(addMSG, 5000)
+
+
+</script>
+
+</html>
