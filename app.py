@@ -5,10 +5,10 @@ from flask.json.provider import JSONProvider
 from flask_jwt_extended import JWTManager
 from datetime import datetime
 
-import json, sys, uuid
+import json, sys, uuid, logging, os
 
 # client = MongoClient('mongodb://test:test@localhost', 27017) # 실제 서버 db
-client = MongoClient('localhost', 27017) # 로컬 db
+client = MongoClient('mongodb://localhost:27017',uuidRepresentation='standard') # 로컬 db
 db = client.testdb
 
 user_collection = db.users
@@ -78,7 +78,7 @@ def login():
 @app.route('/chatrooms', methods=['GET'])
 def get_all_chatroom():
     try:
-        chatroom_data = chatroom_collection.find() # find all
+        chatroom_data = list(chatroom_collection.find({}, {'chatroom_id': 1, 'chatroom_name': 1, 'description': 1})) # find all
         return jsonify({
             'list': chatroom_data,
             'is_success': 1,
@@ -95,7 +95,7 @@ def get_all_chatroom():
 def get_chatroom_users():
     try:
         chatroom_id = request.args.get('chatroom_id')
-        uuid_list = chatroom_collection.find_one({'_id': chatroom_id})['room_users'] ## 맞는지 확인 요망
+        uuid_list = list(chatroom_collection.find_one({'_id': chatroom_id})['users'])
         user_list = get_users(uuid_list)
     except:
         return jsonify({
@@ -189,11 +189,13 @@ def send_message():
         user_uuid = request.form['uuid']
         message = request.form['message']
         
+        message_time = datetime.now()
+        
         chatroom_collection.find_one(chatroom_id)['message_count'] += 1
         message_data = {
             'chatroom_id': chatroom_id, 
             'message_content': message, 
-            'message_time': datetime.now(),
+            'message_time': message_time,
             'uuid': user_uuid
             }
         message_collection.insert_one(message_data)
@@ -204,6 +206,7 @@ def send_message():
         })
     
     return jsonify({
+        'message_time': message_time,
         'is_success': 1,
         'msg': '채팅 입력에 성공하였습니다.'
     })
@@ -211,12 +214,11 @@ def send_message():
 # 채팅방 생성 API
 @app.route('/chatrooms', methods=['POST'])
 def create_chatroom():
-    chatroom_name = request.form['chatroom_name']
-    chatroom_pw = request.form['chatroom_pw']
-    description = request.form['description']
-    creator_uuid = request.form['uuid']
-    
     try:
+        chatroom_name = request.form['chatroom_name']
+        chatroom_pw = request.form['chatroom_pw']
+        description = request.form['description']
+        creator_uuid = request.form['uuid']
         chatroom_data = {
             'chatroom_name': chatroom_name, 
             'chatroom_password': chatroom_pw, 
