@@ -42,7 +42,7 @@ app.json = CustomJSONProvider(app)
 
 @app.route('/')
 def home():
-   return 'This is Home!'
+   return render_template("index.html")
 
 # 회원가입 API
 @app.route('/signup', methods=['POST'])
@@ -278,4 +278,4 @@ def create_chatroom():
     })
 
 if __name__ == '__main__':
-   app.run('0.0.0.0',port=5000,debug=True)
+   app.run('0.0.0.0',port=5001,debug=True)
