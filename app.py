@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, request, jsonify, url_for ,redirect
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
@@ -180,7 +180,7 @@ def enter_chatroom():
         })
     
     chatroom_collection.update_one({'_id': chatroom_id}, {'$push': {'users': user_uuid}})
-    return render_template('chatroom.html', chatroom_id = chatroom_id)
+    return redirect(url_for('chatroom.html',chatroom_id = chatroom_id))
 
 # 특정 채팅방의 채팅기록 불러오기 API
 @app.route('/chatrooms/messages', methods=['GET'])
