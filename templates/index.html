@@ -63,17 +63,47 @@
     </div>
 </body>
 <script>
+    const room_id = 1234
+    // 유저 정보 모음 리스트 
+    let users_in_room = [];
+
     let logined_uuid = 123456;
-    function makeMSG(uuid, name, image, time, message) {
+
+    // # 채팅방에 참여중인 유저 리스트 요청 API
+    $(document).ready( function () {
+        $.ajax({
+            type:"GET",
+            url:`chatrooms/users?chatroom_id=${room_id}`,
+            data:{},
+            success:function(response){
+                if (response['is_success']==1){
+                    users_in_room = response['list']
+                    console.log(users_in_room,response['msg'])
+                }else{
+                    console.log(response['msg'])
+                }
+            }
+        })    
+    })
+    function makeMSG(uuid,message,time) {
+        let image = None;
+        let name = None;
+        for( let item in users_in_room){
+            if(item['uuid'] == uuid){
+                image = item['user_image'];
+                name = item['user_name'];
+            }
+        }
+
         if (logined_uuid != uuid) {
-            const chat_start =
+            temp_tag=
                 `<div class="chat chat-start">
             <div class="chat-image avatar">
                 <div class="w-10 rounded-full">
                     <img alt="Tailwind CSS chat bubble component"
-                        src="{{url_for('static',filename="profile/${image}")}}" />
-                    </div>
+                        src="${image}"/>
                 </div>
+            </div>
                 <div class="chat-header">
                     ${name}
                     <time class="text-xs opacity-50">${time}</time>
@@ -81,12 +111,12 @@
                 <div class="chat-bubble">${message}</div>
         </div>`;
         } else {
-            const chat_end = `
+            temp_tag=`
             <div class="chat chat-end">
             <div class="chat-image avatar">
                 <div class="w-10 rounded-full">
                     <img alt="Tailwind CSS chat bubble component"
-                        src="{{url_for('static',filename="profile/${image}")}}" />
+                        src="${image}"/>
                 </div>
             </div>
             <div class="chat-header">
@@ -96,11 +126,45 @@
             <div class="chat-bubble">${message}</div>
             </div>`;
         }
+        $('#chat-box').append(temp_tag);
     }
     function addMSG() {
         let chat_box = $("#chat-box")
+        $.ajax({
+            type:"GET",
+            url:"/test",
+            data : {},
+            success : function(response){
+                chat_box.append(makeMSG(123455,"Alice",response['path'],"12:43","안녕하세요"))
+            }
+        })
+       
+        
+        console.log("test")
     }
-    setInterval(addMSG, 5000)
+    setInterval(routin, 5000)
+
+    // # 특정 채팅방의 채팅기록 요청 API
+    function routin(){
+        $.ajax({
+            type:"GET",
+            url:`/chatrooms/messages?chatroom_id=${room_id}?count=${count}`,
+            data : {},
+            success : function(response){
+                if (response['is_success'] == 1){
+                    let list = response['list'];
+                    for(let item in list ){
+                        makeMSG(item['uuid'],item['message'],item['time'])
+                    }
+                    console.log(response['msg'])
+                    // 새로운 메세지 알림 기능 
+                }else{
+                    console.log(response['msg'])
+                }
+                
+            }
+        })
+    }
 
 
 </script>
