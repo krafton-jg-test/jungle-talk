@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for, redirect
+from flask import Flask, render_template, request, jsonify, url_for
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 
-import json, sys, uuid, logging, os
+import json, uuid, os
 
 # client = MongoClient('mongodb://test:test@localhost', 27017) # 실제 서버 db
 client = MongoClient('mongodb://localhost:27017',uuidRepresentation='standard') # 로컬 db
@@ -22,7 +22,6 @@ app.config.update(
     JWT_SECRET_KEY = "TEST" # JWT 시크릿 키 설정
 )
 jwt = JWTManager(app) # app에 JWT 확장 모듈 등록
-
 app.config['JWT_ACCESS_TOKEN_EXPIRATION'] = timedelta(hours = 5) # 액세스토큰 만료시간 1시간으로 설정
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -181,30 +180,7 @@ def enter_chatroom():
         })
     
     chatroom_collection.update_one({'_id': chatroom_id}, {'$push': {'users': user_uuid}})
-    return jsonify({
-        'is_success': 1,
-        'msg': '채팅방에 입장했습니다.'
-    })
-
-# # 5초 단위 해당 채팅방의 채팅 갯수 값 불러오기 API
-# @app.route('/chatrooms/message-counts', methods=['GET'])
-# def count_message():
-#     try:
-#         chatroom_id = request.args.get('chatroom_id')
-#         message_cnt = chatroom_collection.find_one({'_id': chatroom_id})['message_count'] # 서버의 메시지 카운트
-#         result = message_cnt % 100
-        
-#     except:
-#         return jsonify({
-#             'is_success': 0,
-#             'msg': "채팅 갯수를 가져오는데 실패하였습니다."
-#         })
-    
-#     return jsonify({
-#         'cnt': result,
-#         'is_success': 1,
-#         'msg': '채팅 갯수를 가져오는데 성공하였습니다.'
-#     })
+    return render_template('chatroom.html', chatroom_id = chatroom_id)
 
 # 특정 채팅방의 채팅기록 불러오기 API
 @app.route('/chatrooms/messages', methods=['GET'])
@@ -236,14 +212,10 @@ def get_chatroom():
         })
     return jsonify({
         'list': message_list,
+        'count': server_msg_count,
         'is_success': 1,
         'msg': '채팅기록 불러오기에 성공하였습니다.'
     })
-
-# # 채팅방 새로고침 API
-# @app.route('/chatrooms/refresh', methods=['GET'])
-# def refresh_chatroom():
-#     return
 
 # 채팅 입력 API
 @app.route('/chatrooms/messages', methods=['POST'])
