@@ -16,6 +16,9 @@ user_collection = db.users
 chatroom_collection = db.chatrooms
 message_collection = db.messages
 
+# 채팅방이 마지막 채팅이 올라온지 7일이 지나면 자동으로 삭제되도록 설정(last_chat_time에 설정)
+chatroom_collection.create_index("last_chat_time", expireAfterSeconds= 7 * 24 * 60 * 60)
+
 app = Flask(__name__, instance_relative_config=True)
 app.config.update(
     DEBUG = True,
@@ -116,6 +119,7 @@ def login():
 def get_all_chatroom():
     try:
         chatroom_data = list(chatroom_collection.find({}, {'chatroom_id': 1, 'chatroom_name': 1, 'description': 1})) # find all
+        # return render_template('index.html', )
         return jsonify({
             'list': chatroom_data,
             'is_success': 1,
@@ -227,7 +231,11 @@ def send_message():
         
         message_time = datetime.now()
         
-        chatroom_collection.update_one({'_id': chatroom_id}, {'$inc': {'message_count': 1}}) # 메시지 수 증가 처리
+        # 메시지 수 증가 처리 및 마지막 채팅 시간 수정
+        chatroom_collection.update_one(
+            {'_id': chatroom_id}, 
+            {'$inc': {'message_count': 1}, '$set': {'last_chat_time': message_time}}
+            )
         
         message_data = {
             'chatroom_id': chatroom_id, 
@@ -256,13 +264,17 @@ def create_chatroom():
         chatroom_pw = request.form['chatroom_pw']
         description = request.form['description']
         creator_uuid = request.form['uuid']
+        
+        last_chat_time = datetime.now()
+        
         chatroom_data = {
             'chatroom_name': chatroom_name, 
             'chatroom_password': chatroom_pw, 
             'description': description, 
             'users': [creator_uuid], 
             'uuid': creator_uuid,
-            'message_count': 0
+            'message_count': 0,
+            "last_chat_time": last_chat_time # TTL 지나면 삭제되도록 설정된 컬럼
             }
         chatroom_collection.insert_one(chatroom_data)
     
