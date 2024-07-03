@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- tailwind css -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <link href =  "{{url_for('static',filename='css/chatroom.css')}}" rel="stylesheet" type="text/css">
+    <link href ="/static/css/styles.css" rel="stylesheet" type="text/css">
+    <script src = "{{url_for('static',filename='js/chatroom.js')}}"></script>
+
+</head>
+
+<body>
+
+    <nav class="flex items-center justify-between flex-wrap bg-[#15191E] p-3">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+            <div class="w-32 rounded-full">
+                <img alt="jungle talk 로고" src="/static/profile/myProfile.jpg" />
+            </div>
+        </div>
+        <div class="block lg:hidden">
+            <button class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] rounded btn-sm btn-login">
+                Register
+            </button>
+        </div>
+    </nav>
+    <div class="wrap bg-base-100 h-screen">
+        <div class="flex w-full flex-col border-opacity-50 p-3">
+            <div id="chat-box">
+                <div class="chat chat-start">
+                    <div class="chat-image avatar">
+                        <div class="w-10 rounded-full">
+                            <img alt="기본 프로필"
+                                src="/static/profile/default_profile_image.png" />
+                        </div>
+                    </div>
+                    <div class="chat-header chat-header-margin">
+                        Obi-Wan Kenobi
+                    </div>
+                    <div class="chat-bubble chat-bubble-format">You were the Chosen One! You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!</div>
+                </div>
+                <div class="chat chat-end">
+                    <div class="chat-image avatar">
+                        <div class="w-10 rounded-full">
+                            <img alt="Tailwind CSS chat bubble component"
+                                src="/static/profile/default_profile_image.png" />
+                        </div>
+                    </div>
+                    <div class="chat-header my-chat-header-margin">
+                        Anakin
+                    </div>
+                    <div class="chat-bubble my-chat-bubble-format">I hate you! I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!</div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <div class="bg-gray-100 fixed-bottom my-0 content-end px-4 py-2 ">
+                <div class="flex items-center">
+                
+                    <textarea id ="input-chat" class="w-full custom-border rounded-3xl chat-box-border py-2 px-4 mr-2 resize-none" placeholder="메시지를 입력하세요.">
+
+                    </textarea>
+                    <button id="btn-send" class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] font-medium py-2 px-4 rounded-full">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
