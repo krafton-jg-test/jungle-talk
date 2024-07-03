@@ -1,0 +1,67 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href ="/static/css/styles.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
+<style>
+          .modal::backdrop-blur-3xl {
+        background-color: rgba(255, 255, 255, 0.75); /* Change the background color */
+      }
+</style>
+</head>
+
+<body>
+
+
+    <button class="btn" onclick="sign_up.showModal()">open modal</button>
+    <dialog id="sign_up" class="modal">
+        <form method="dialog" class="modal-box w-auto bg-[#1F978B]">
+            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center">Chat Info</p>
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
+                <div class="text-[#FEFEFE] ml-2 text-xl">
+                    <p>Name</p>
+                    <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                        <input type="text" class="grow" placeholder="채팅방 이름을 입력해주세요." />
+                    </label>
+                    <p>Passwd</p>
+                    <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                        <input type="text" class="grow" placeholder="채팅방 비밀번호를 입력해주세요." />
+                    </label>
+
+                        <p>Description</p>
+                
+                        <textarea class="textarea textarea-boreded w-full flex items-center gap-2 mb-3" placeholder="채팅방 설명란 입니다. 채팅방을 소개해주세요.">
+                        </textarea>
+                    </div>
+                </div>
+                    <div class="grid place-items-center">
+                        <button type="submit"class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                            Create
+                        </button>
+                    </div>
+            </div>
+        </dialog>
+    </form>
+    </body>
+    
+    <br>
+    
+<!-- <div>
+    <label class="input input-bordered flex items-center gap-2 my-3">
+        Name
+        <input type="text" class="grow" placeholder="Daisy" />
+      </label>
+      <label class="input input-bordered flex items-center gap-2 my-3">
+        Email
+        <input type="text" class="grow" placeholder="daisy@site.com" />
+      </label>
+      <label class="input input-bordered flex items-center gap-2 my-3">
+        <input type="text" class="grow" placeholder="Search" />
+        <kbd class="kbd kbd-sm">⌘</kbd>
+        <kbd class="kbd kbd-sm">K</kbd>
+      </label>
+      <label class="input input-bordered flex items-center gap-2 my-3">
+        <input type="text" class="grow" placeholder="Search" />
+      </label>
+</div> -->
