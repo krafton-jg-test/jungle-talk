@@ -16,6 +16,9 @@ user_collection = db.users
 chatroom_collection = db.chatrooms
 message_collection = db.messages
 
+# TTL 설정. 채팅방이 마지막 채팅이 올라온지 7일이 지나면 자동으로 삭제되도록 설정(last_chat_time에 설정)
+chatroom_collection.create_index("last_chat_time", expireAfterSeconds = 7 * 24 * 60 * 60)
+
 app = Flask(__name__, instance_relative_config=True)
 app.config.update(
     DEBUG = True,
@@ -50,14 +53,19 @@ def sign_up():
     try:
         user_name = request.form['name']
         
-        profile_img_file = request.files['profile_image'] # 프로필 이미지 파일
-        app.config['UPLOAD_FOLDER'] = 'static/profile'
-        filename = secure_filename(profile_img_file.filename) # 파일명 안전하게 처리
-        
-        profile_img_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        profile_img_path = f"profile/{filename}"
+        # 유저가 넘긴 프로필 이미지 없으면 기본 이미지로 설정
+        if 'profile_image' not in request.files or request.files['profile_image'].filename == '':
+            profile_img_path = 'static/profile/default_profile_image.png'
+            filename = "default_profile_image.png"
+            
+        else:
+            profile_img_file = request.files['profile_image'] # 프로필 이미지 파일
+            filename = secure_filename(profile_img_file.filename) # 파일명 안전하게 처리
+            app.config['UPLOAD_FOLDER'] = 'static/profile'
+            profile_img_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            profile_img_path = f"profile/{filename}"
                 
-        login_id = request.form['id']
+        login_id = request.form['login_id']
         password = request.form['password']
         
         new_user = {'login_id': login_id, 'password': password, 'profile_image': profile_img_path, 'uuid': uuid.uuid1(), 'user_name': user_name}
@@ -94,7 +102,7 @@ def login():
         password = request.form['password']
 
         # 유저의 로그인아이디에 해당하는 비밀번호 조회
-        target_pw = user_collection.find_one({'login_id': login_id}, {'password': 1})
+        target_pw = user_collection.find_one({'login_id': login_id})['password']
         
         # 입력한 비밀번호 해당하는 비밀번호 같으면 토큰 발행
         if(password == target_pw):
@@ -116,6 +124,7 @@ def login():
 def get_all_chatroom():
     try:
         chatroom_data = list(chatroom_collection.find({}, {'chatroom_id': 1, 'chatroom_name': 1, 'description': 1})) # find all
+        # return render_template('index.html', )
         return jsonify({
             'list': chatroom_data,
             'is_success': 1,
@@ -227,7 +236,11 @@ def send_message():
         
         message_time = datetime.now()
         
-        chatroom_collection.update_one({'_id': chatroom_id}, {'$inc': {'message_count': 1}}) # 메시지 수 증가 처리
+        # 메시지 수 증가 처리 및 마지막 채팅 시간 수정
+        chatroom_collection.update_one(
+            {'_id': chatroom_id}, 
+            {'$inc': {'message_count': 1}, '$set': {'last_chat_time': message_time}}
+            )
         
         message_data = {
             'chatroom_id': chatroom_id, 
@@ -256,13 +269,17 @@ def create_chatroom():
         chatroom_pw = request.form['chatroom_pw']
         description = request.form['description']
         creator_uuid = request.form['uuid']
+        
+        last_chat_time = datetime.now()
+        
         chatroom_data = {
             'chatroom_name': chatroom_name, 
             'chatroom_password': chatroom_pw, 
             'description': description, 
             'users': [creator_uuid], 
             'uuid': creator_uuid,
-            'message_count': 0
+            'message_count': 0,
+            "last_chat_time": last_chat_time # TTL 지나면 삭제되도록 설정된 컬럼
             }
         chatroom_collection.insert_one(chatroom_data)
     
