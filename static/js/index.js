@@ -110,7 +110,7 @@ function doIdCheck(){
 function enterChatRoom(){
     let room_id = $('#passwd').find('#hidden-data').val()
     let room_pw = $('#passwd').find('#input-pw').val()
-
+    console.log(room_id,room_pw)
     $.ajax({
         type: "POST",
         url: '/chat/chatrooms/enter',
@@ -140,9 +140,9 @@ function loadChatRoomList() {
         data: {},
         success: function (response) {
             if (response['is_success'] == 1) {
-                for (let item in response['list']) {
+                for (let item of response['list']) {
                     makeChatRoom(
-                        item['chatroom_id'],
+                        item['_id'],
                         item['chatroom_name'],
                         item['description'],
                         item['count']
