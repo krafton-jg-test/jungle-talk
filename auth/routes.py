@@ -1,17 +1,20 @@
-from flask import request, jsonify, url_for
+from flask import Blueprint, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
-import uuid, os
+import uuid
+import os
 from flask_jwt_extended import create_access_token
-from . import auth_bp
+from auth import auth_bp
 
 # client = MongoClient('mongodb://test:test@13.124.143.165', port=27017, uuidRepresentation='standard') # 실제 서버 db
 client = MongoClient('mongodb://webserver:webserver@43.200.205.11',
-                     port=27017, uuidRepresentation='standard')
+                     port=27017, uuidRepresentation='standard')  # 실제 서버 db
 db = client.testdb
 user_collection = db.users
 
 # 회원가입 API
+
+
 @auth_bp.route('/signup', methods=['POST'])
 def sign_up():
     try:
@@ -43,7 +46,7 @@ def sign_up():
 # 회원가입 아이디 중복확인
 
 
-@auth_bp('/signup/duplication-check', methods=['POST'])
+@auth_bp.route('/signup/duplication-check', methods=['POST'])
 def check_username_duplication():
     login_id = request.form['id']
     if (user_collection.find_one({'login_id': login_id})):
@@ -63,7 +66,7 @@ def check_username_duplication():
 # 로그인
 
 
-@auth_bp('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     try:
         # 유저의 아이디, 비밀번호 입력받음

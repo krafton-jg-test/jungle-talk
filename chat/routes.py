@@ -3,11 +3,11 @@ from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
-from . import chat_bp
+from chat import chat_bp
 
 # client = MongoClient('mongodb://test:test@13.124.143.165', port=27017, uuidRepresentation='standard') # 실제 서버 db
 client = MongoClient('mongodb://webserver:webserver@43.200.205.11',
-                     port=27017, uuidRepresentation='standard')
+                     port=27017, uuidRepresentation='standard')  # 실제 서버 db
 
 db = client.testdb
 chatroom_collection = db.chatrooms
@@ -15,6 +15,8 @@ user_collection = db.users
 message_collection = db.messages
 
 # 채팅방에 참여중인 유저 리스트 반환
+
+
 @chat_bp.route('/chatrooms/users', methods=['GET'])
 def get_chatroom_users():
     try:
@@ -34,6 +36,8 @@ def get_chatroom_users():
     })
 
 # get_chatroom_users()의 유저 정보 반환용 내부 함수
+
+
 def get_users(uuid_list):
 
     user_list = []
@@ -47,6 +51,8 @@ def get_users(uuid_list):
     return user_list
 
 # 채팅방 입장
+
+
 @chat_bp.route('/chatrooms/enter', methods=['POST'])
 @jwt_required()
 def enter_chatroom():
@@ -75,6 +81,8 @@ def enter_chatroom():
     return url_for('chatroom', chatroom_id=chatroom_id)
 
 # 모든 채팅방 정보 불러오기(메인페이지)
+
+
 @chat_bp.route('/chatrooms', methods=['GET'])
 def get_all_chatroom():
     try:
@@ -91,8 +99,10 @@ def get_all_chatroom():
             'is_success': 0,
             'msg': '채팅방 정보 반환에 실패하였습니다.'
         })
-        
+
 # 특정 채팅방의 채팅기록 불러오기
+
+
 @chat_bp.route('/chatrooms/messages', methods=['GET'])
 def get_chatroom():
     try:
@@ -124,8 +134,10 @@ def get_chatroom():
         'is_success': 1,
         'msg': '채팅기록 불러오기에 성공하였습니다.'
     })
-    
+
 # 채팅 입력
+
+
 @chat_bp.route('/chatrooms/messages', methods=['POST'])
 def send_message():
     try:
@@ -159,8 +171,10 @@ def send_message():
         'is_success': 1,
         'msg': '채팅 입력에 성공하였습니다.'
     })
-    
+
 # 채팅방 생성
+
+
 @chat_bp.route('/chatrooms', methods=['POST'])
 def create_chatroom():
     try:
