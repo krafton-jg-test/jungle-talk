@@ -75,7 +75,7 @@ def login():
         # 유저의 아이디, 비밀번호 입력받음
         login_id = request.form['login_id']
         password = request.form['password']
-
+        print(login_id,password)
         # 유저의 로그인아이디에 해당하는 비밀번호 조회
         target_pw = user_collection.find_one(
             {'login_id': login_id})['password']
@@ -92,7 +92,7 @@ def login():
         else:
             return jsonify({
                 'is_success': 0,
-                'msg': '로그인에 실패하였습니다.'
+                'msg': '로그인에 실패하였습니다.1'
             })
     except:
         return jsonify({
