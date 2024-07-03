@@ -18,6 +18,8 @@
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
     <script src="{{url_for('static',filename='js/index.js')}}">
@@ -25,15 +27,20 @@
     </script>
 
     <style>
+        * {
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+
         #logo {
             max-height: 100px;
         }
 
-        #chat-box {
+        /* #chat-box {
 
             /* 수평 가운데 정렬 (Flexbox 사용 시) */
 
-        }
+        /* } */
 
         .wrap {
 
@@ -61,17 +68,18 @@
         </div>
 
         <!-- 이 태그 복사해서 사용 -->
-            <div class="chat-box flex w-full flex-col border-opacity-50">
-                <div class="w-3/4 overflow-hidden rounded-lg ring-1 ring-gray-200">
-                    <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
-                        <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
-                    </div>
-                    <div class="p-4 bg-[#1F978B]">
-                        <h3 class="pl-0 text-[#FEFEFE]">군사는 대체가 차에 용무에 짐승에 하는 위한 전용을, 하다. 해외여행지로써 감돌아 나보다 있다, 왼손을 글은 섭취한 토양을 되다</h3>
-                    </div>
+        <div class="chat-box flex w-full flex-col border-opacity-50">
+            <div class="w-3/4 overflow-hidden rounded-lg ring-1 ring-gray-200">
+                <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
+                </div>
+                <div class="p-4 bg-[#1F978B]">
+                    <h3 class="pl-0 text-[#FEFEFE]">군사는 대체가 차에 용무에 짐승에 하는 위한 전용을, 하다. 해외여행지로써 감돌아 나보다 있다, 왼손을 글은 섭취한 토양을
+                        되다</h3>
                 </div>
             </div>
-       <!-- 여기까지 -->
+        </div>
+        <!-- 여기까지 -->
     </div>
 </body>
 <script>
@@ -82,34 +90,33 @@
     let logined_uuid = 123456;
 
     // # 채팅방에 참여중인 유저 리스트 요청 API
-    $(document).ready( function () {
+    $(document).ready(function () {
         $.ajax({
-            type:"GET",
-            url:`chatrooms/users?chatroom_id=${room_id}`,
-            data:{},
-            success:function(response){
-                if (response['is_success']==1){
+            type: "GET",
+            url: `chatrooms/users?chatroom_id=${room_id}`,
+            data: {},
+            success: function (response) {
+                if (response['is_success'] == 1) {
                     users_in_room = response['list']
-                    console.log(users_in_room,response['msg'])
-                }else{
+                    console.log(users_in_room, response['msg'])
+                } else {
                     console.log(response['msg'])
                 }
             }
-        })    
+        })
     })
-    
     function makeMSG(uuid,message,time) {
         let image = None;
         let name = None;
-        for( let item in users_in_room){
-            if(item['uuid'] == uuid){
+        for (let item in users_in_room) {
+            if (item['uuid'] == uuid) {
                 image = item['user_image'];
                 name = item['user_name'];
             }
         }
 
         if (logined_uuid != uuid) {
-            temp_tag=
+            temp_tag =
                 `<div class="chat chat-start">
             <div class="chat-image avatar">
                 <div class="w-10 rounded-full">
@@ -124,7 +131,7 @@
                 <div class="chat-bubble">${message}</div>
         </div>`;
         } else {
-            temp_tag=`
+            temp_tag = `
             <div class="chat chat-end">
             <div class="chat-image avatar">
                 <div class="w-10 rounded-full">
@@ -144,37 +151,37 @@
     function addMSG() {
         let chat_box = $("#chat-box")
         $.ajax({
-            type:"GET",
-            url:"/test",
-            data : {},
-            success : function(response){
-                chat_box.append(makeMSG(123455,"Alice",response['path'],"12:43","안녕하세요"))
+            type: "GET",
+            url: "/test",
+            data: {},
+            success: function (response) {
+                chat_box.append(makeMSG(123455, "Alice", response['path'], "12:43", "안녕하세요"))
             }
         })
-       
-        
+
+
         console.log("test")
     }
     setInterval(routin, 5000)
 
     // # 특정 채팅방의 채팅기록 요청 API
-    function routin(){
+    function routin() {
         $.ajax({
-            type:"GET",
-            url:`/chatrooms/messages?chatroom_id=${room_id}?count=${count}`,
-            data : {},
-            success : function(response){
-                if (response['is_success'] == 1){
+            type: "GET",
+            url: `/chatrooms/messages?chatroom_id=${room_id}?count=${count}`,
+            data: {},
+            success: function (response) {
+                if (response['is_success'] == 1) {
                     let list = response['list'];
-                    for(let item in list ){
-                        makeMSG(item['uuid'],item['message'],item['time'])
+                    for (let item in list) {
+                        makeMSG(item['uuid'], item['message'], item['time'])
                     }
                     console.log(response['msg'])
                     // 새로운 메세지 알림 기능 
-                }else{
+                } else {
                     console.log(response['msg'])
                 }
-                
+
             }
         })
     }

@@ -22,30 +22,67 @@
 
     <link href =  "{{url_for('static',filename='css/chatroom.css')}}" rel="stylesheet" type="text/css">
     <script src = "{{url_for('static',filename='js/chatroom.js')}}"></script>
+
 </head>
 
 <body>
-    <div class="wrap bg-base-300 rounded-box  h-screen">
 
-        <div id="header_box">
-            <img id="logo" class="" src="{{url_for('static',filename='profile/myProfile.jpg')}}" alt="">
-
-            <button class="btn btn-ghost btn-login">Ghost</button>
+    <nav class="flex items-center justify-between flex-wrap bg-[#15191E] p-3">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+            <div class="w-32 rounded-full">
+                <img alt="Tailwind CSS chat bubble component" src="/static/profile/myProfile.jpg" />
+            </div>
         </div>
-
-        <div class="flex w-full flex-col border-opacity-50">
+        <div class="block lg:hidden">
+            <button class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] rounded btn-sm btn-login">
+                Register
+            </button>
+        </div>
+    </nav>
+    <div class="wrap bg-base-100 h-screen">
+        <div class="flex w-full flex-col border-opacity-50 p-3">
             <div id="chat-box">
+                <div class="chat chat-start">
+                    <div class="chat-image avatar">
+                        <div class="w-10 rounded-full">
+                            <img alt="Tailwind CSS chat bubble component"
+                                src="/static/profile/default_profile_image.png" />
+                        </div>
+                    </div>
+                    <div class="chat-header chat-header-margin">
+                        Obi-Wan Kenobi
+                    </div>
+                    <div class="chat-bubble chat-bubble-format">You were the Chosen One! You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!You were the Chosen One!</div>
+                </div>
+                <div class="chat chat-end">
+                    <div class="chat-image avatar">
+                        <div class="w-10 rounded-full">
+                            <img alt="Tailwind CSS chat bubble component"
+                                src="/static/profile/default_profile_image.png" />
+                        </div>
+                    </div>
+                    <div class="chat-header my-chat-header-margin">
+                        Anakin
+                    </div>
+                    <div class="chat-bubble my-chat-bubble-format">I hate you! I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!I hate you!</div>
+                </div>
 
             </div>
         </div>
 
-        <div class="bg-gray-100 px-4 py-2">
-            <div class="flex items-center">
-                <input class="w-full border rounded-full py-2 px-4 mr-2" type="text" placeholder="메시지를 입력하세요.">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full">
-            Send
-          </button>
+        <footer>
+            <div class="bg-gray-100 fixed-bottom px-4 py-2 ">
+                <div class="flex items-center">
+                
+                    <textarea class="w-full custom-border rounded-3xl chat-box-border py-2 px-4 mr-2 resize-none placeholder="메시지를 입력하세요.">
+                        
+                    </textarea>
+                    <button class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] font-medium py-2 px-4 rounded-full">
+                        Send
+                    </button>
+                </div>
             </div>
+        </footer>
     </div>
 </body>
 
