@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from datetime import timedelta
-from werkzeug.utils import secure_filename
+from flask_jwt_extended import JWTManager
 from auth.routes import auth_bp
 from chat.routes import chat_bp
 from config.settings import JWT_config
