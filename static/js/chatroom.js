@@ -1,45 +1,7 @@
 
 let room_id = 1234;
-////////////// 테스트
-// 유저 정보 모음 리스트 
-class User {
-    static count = 0;
-    constructor(id,name,image){
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        count+=1;
-    }
-    getId(){
-        return this.id;
-    }
-    getName(){
-        return this.name;
-    }
-    getImage(){
-        return this.image;
-    }
-    getCount(){
-        return count;
-    }
-}
-class UserBuilder {
-    setId(id){
-        this.id = id;
-    }
-    setName(name){
-        this.name = name;
-    }
-    setImage(image){
-        this.image = image;
-    }
-    build(){
-        return new User(this.id,this.name,this.image)
-    }
-}
-//////////////
-
 let user_list = [];
+let count =-1;
 
 // # 채팅방에 참여중인 유저 리스트 요청 API -> done
 function requestUserData(){
@@ -57,7 +19,7 @@ function requestUserData(){
         }
     })   
 }
-let count =-1;
+
 
 $(document).ready( function () {
     requestUserData()
@@ -117,17 +79,15 @@ function addMSG() {
     let chat_box = $("#chat-box")
     $.ajax({
         type:"POST",
-        url:"/chatrooms/messages",
+        url:"/chat/chatrooms/messages",
         data : {
             'chatroom_id':1234,
-            'uuid':1234,
             'message':"test"
         },
         success : function(response){
            console.log(response)
         }
     })
-   
     console.log("test")
 }
 
@@ -135,7 +95,7 @@ function addMSG() {
 function routine(){
     $.ajax({
         type:"GET",
-        url:`/chatrooms/messages?chatroom_id=${room_id}&count=${count}`,
+        url:`/chat/chatrooms/messages?chatroom_id=${room_id}&count=${count}`,
         data : {},
         success : function(response){
             if (response['is_success'] == 1){

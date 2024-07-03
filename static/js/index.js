@@ -1,5 +1,3 @@
-let idCheck = 0;
-
 $(document).ready(function () {
     //채팅방 로딩 
     loadChatRoomList()
@@ -46,15 +44,18 @@ function loginRequest(element){
 }
 
 function register(){
-    if(idCheck == 0){
-        alert("중복체크를 해주세요!!")
-        return
-    }
+    console.log('register')
+    // if(idCheck == 0){
+    //     alert("중복체크를 해주세요!!")
+    //     return
+    // }
     let input_id = $("#signup-id").val()
     let input_passwd=$("#signup-passwd").val()
     let input_name=$('#signup-name').val()
     let input_image=$('#signup-image').val()
-    
+    console.log(input_id,input_passwd,input_name)
+    console.log(input_image)
+
     if(input_id == undefined){
         alert("아이디를 입력해 주세요!!")
         return   
@@ -71,26 +72,31 @@ function register(){
         'name':input_name,
         'image':input_image,
     }
+    $.ajax({
+        type:"POST",
+        url:'/auth/signup',
+        data:post_data,
+        success:function(response){
+                console.log(posted)
+                alert(response['msg'])
+        }
+    })
 }
 
 //중복체크 
 function doIdCheck(){
-    if(idCheck==1){
-        alert("사용 가능한 아이디 입니다!!")
-        return
-    }
     let input_id = $("#signup-id").val()
     $.ajax({
         type:"POST",
-        url:'/signup/duplicate-check',
+        url:'/auth/signup/duplication-check',
         data:{
             'id':input_id
         },
         success: function(response){
             if(response['is_duplicate']==1){
-                idCheck=1;
-                doIdCheck();
-            }
+                alert("사용 가능한 아이디 입니다!!")
+            }else
+                alert("이미 사용중인 아이디 입니다.")
         }
     })
 }
