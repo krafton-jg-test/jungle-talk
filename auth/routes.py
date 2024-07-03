@@ -19,25 +19,29 @@ user_collection = db.users
 def sign_up():
     try:
         user_name = request.form['name']
-
+        login_id = request.form['login_id']
+        password = request.form['password']
+        print(user_name,login_id,password)
         # 유저가 넘긴 프로필 이미지 없으면 기본 이미지로 설정
         if 'profile_image' not in request.files or request.files['profile_image'].filename == '':
             profile_img_path = 'static/profile/default_profile_image.png'
             filename = "default_profile_image.png"
+            print(filename)
 
         else:
             profile_img_file = request.files['profile_image']  # 프로필 이미지 파일
             filename = secure_filename(
                 profile_img_file.filename)  # 파일명 안전하게 처리
+            print(filename)
             profile_img_file.save(os.path.join('static/profile'), filename)
+            print(filename)
             profile_img_path = f"profile/{filename}"
 
-        login_id = request.form['login_id']
-        password = request.form['password']
+  
 
         new_user = {'login_id': login_id, 'password': password,
                     'profile_image': profile_img_path, 'uuid': uuid.uuid1(), 'user_name': user_name}
-
+ 
         user_collection.insert_one(new_user)
     except:
         return jsonify({'is_success': 0, 'msg': '회원가입에 실패하였습니다.'})

@@ -16,14 +16,14 @@ $(document).ready(function () {
     //회원가입 모달
     $('#signupform').on('submit',function(event){
         event.preventDefault();
-        register()
+        register(this)
     })
     //중복검사
     $('#duplicate').on('click',function(){
         doIdCheck()
     })
 });
-
+//로그인
 function loginRequest(element){
     const formData = $(element).serialize();
     $.ajax({
@@ -33,7 +33,7 @@ function loginRequest(element){
         success: function(response) {
           if(response['is_success']==1){
             localStorage.setItem('access_token',response['access_token'])
-            window.location.href='/dashboard'
+            window.location.href='/auth/dashboard'
           }
         },
         error: function(error) {
@@ -42,45 +42,51 @@ function loginRequest(element){
         }
       });
 }
-
-function register(){
+//회원가입 
+function register(element){
     console.log('register')
-    // if(idCheck == 0){
-    //     alert("중복체크를 해주세요!!")
-    //     return
-    // }
-    let input_id = $("#signup-id").val()
-    let input_passwd=$("#signup-passwd").val()
-    let input_name=$('#signup-name').val()
-    let input_image=$('#signup-image').val()
-    console.log(input_id,input_passwd,input_name)
-    console.log(input_image)
 
-    if(input_id == undefined){
-        alert("아이디를 입력해 주세요!!")
-        return   
-    }else if( input_passwd == undefined){
-        alert("비밀번호를 입력해 주세요!!")
-        return
-    }else if( input_name == undefined){
-        alert("이름을 입력해 주세요!!")
-        return
-    }
-    let post_data ={
-        'id':input_id,
-        'passwd':input_passwd,
-        'name':input_name,
-        'image':input_image,
-    }
+    const formData = new FormData();
+    console.log($('#sign-id').val(),
+    $('#sign-password').val(),
+    $('#sign-name').val(),
+    $('#sign-image')[0].files[0])
+    formData.append('login_id', $('#sign-id').val());
+    formData.append('password', $('#sign-password').val());
+    formData.append('name', $('#sign-name').val());
+    formData.append('profile_image', $('#sign-image')[0].files[0]); // 파일을 FormData에 추가
+    console.log(formData)
+    // $.ajax({
+    //     type:"POST",
+    //     url:'/auth/signup',
+    //     data:formData,
+    //     contentType: false,
+    //     processData: false, 
+    //     success:function(response){
+    //             console.log(posted)
+    //             alert(response['msg'])
+    //     }
+    // })
     $.ajax({
-        type:"POST",
-        url:'/auth/signup',
-        data:post_data,
-        success:function(response){
-                console.log(posted)
+        url:'/auth/signup', // 업로드할 서버의 엔드포인트 URL
+        type: 'POST', // HTTP 요청 메서드 (GET, POST 등)
+        data: formData, // 전송할 데이터 (FormData 객체)
+        contentType: false, // 데이터 타입 (파일 업로드 시 false로 설정)
+        processData: false, // 데이터 처리 방식 (FormData 객체 사용 시 false로 설정)
+        success: function(response) {
+            if(response['is_success']==1){
+                alert( response['msg']);
+               
+            }else{
                 alert(response['msg'])
+            }
+            window.location.reload()
+        },
+        error: function(error) {
+          console.error('Upload Error:', error);
+          // 업로드 에러 시 처리할 코드
         }
-    })
+      });
 }
 
 //중복체크 

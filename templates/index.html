@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
     <link href="{{url_for('static',filename='css/index.css')}}" rel="stylesheet" type="text/css">
     <script src="{{url_for('static',filename='js/index.js')}}"></script>
-    <script src="{{url_for('static',filename='js/signup.js')}}"></script>
+    <!-- <script src="{{url_for('static',filename='js/signup.js')}}"></script> -->
     <style>
         .hidden-box {
             display: none;
@@ -44,7 +44,9 @@
             )
             passwd.showModal()
         }
-
+        function showSigiUpModal(){
+            
+        }
     </script>
 </head>
 
@@ -93,36 +95,7 @@
                 </div>
             </div>
     </dialog>
-    <dialog id="newchat" class="modal">
-        <form method="dialog" class="modal-box w-96 bg-[#1F978B]">
-            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center">Chat Info</p>
-            <button
-                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
-            <div class="text-[#FEFEFE] ml-2 text-xl">
-                <p>Name</p>
-                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
-                    <input type="text" class="grow" placeholder="채팅방 이름을 입력해주세요." />
-                </label>
-                <p>Passwd</p>
-                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
-                    <input type="text" class="grow" placeholder="채팅방 비밀번호를 입력해주세요." />
-                </label>
 
-                <p>Description</p>
-
-                <textarea class="textarea textarea-boreded w-full flex items-center gap-2 mb-3"
-                    placeholder="채팅방 설명란 입니다. 채팅방을 소개해주세요.">
-                        </textarea>
-            </div>
-            </div>
-            <div class="grid place-items-center">
-                <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
-                    Create
-                </button>
-            </div>
-            </div>
-        </form>
-    </dialog>
     <dialog id="passwd" class="modal">
         <form id="passwdform" method="dialog" class="modal-box w-80 bg-[#1F978B]">
             <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center my-8">Enter Password</p>
@@ -195,7 +168,7 @@
         <div class="text-[#FEFEFE] ml-2 text-lg">
             <p>ID</p>
             <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
-                <input type="text" class="grow" placeholder="아이디를 입력해주세요." />
+                <input id="sign-id" type="text" class="grow" placeholder="아이디를 입력해주세요." />
                 <!-- 중복체크 버튼 -->
                 <button
                     id="duplicate" class="btn-xs bg-[#696969] hover:bg-[#156f66] text-[#FEFEFE] font-medium rounded flex items-center justify-center -mr-2">
@@ -204,14 +177,14 @@
             </label>
             <p>Passwd</p>
             <label class="input input-bordered input-sm flex items-center gap-2 mb-3">
-                <input type="text" class="grow" placeholder="비밀번호를 입력해주세요." />
+                <input id="sign-password" type="text" class="grow" placeholder="비밀번호를 입력해주세요." />
             </label>
             <p>Name</p>
             <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
-                <input type="text" class="grow" placeholder="이름을 입력해주세요." />
+                <input id='sign-name'type="text" class="grow" placeholder="이름을 입력해주세요." />
             </label>
             <p>Profile image</p>
-            <input type="file" class="file-input file-input-sm file-input-bordered w-auto mb-4" />
+            <input id="sign-image"name="profile_image" type="file" class="file-input file-input-sm file-input-bordered w-auto mb-4" />
             <!-- 
                 <button class="btn btn-sm sm:btn-sm md:btn-md lg:btn-lg btn-[#FEFEFE]">Responsive</button> -->
         </div>
