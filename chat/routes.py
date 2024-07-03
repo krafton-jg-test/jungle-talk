@@ -156,21 +156,28 @@ def get_chatroom():
 
         elif (server_msg_count < client_msg_count):
             count = 100 + client_msg_count - server_msg_count
-
-        # aggregation pipeline
-        pipeline = [
-            {'$match': {'chatroom_id': chatroom_id}},
-            {'$sort': {'message_time': -1}},
-            {'$limit': count},
-            {'$project': {
-                '_id': False,
-                'uuid': True,
-                'message': True,
-                'message_time': True
-                # 'message_time': {'$dateToString': {'format': '%Y-%m-%dT%H:%M', 'date': '$message_time'}}
-            }}
-        ]
-        message_list = list(message_collection.aggregate(pipeline))
+            
+        message_list = list(message_collection.find({'chatroom_id': chatroom_id}, {
+                                               'uuid': 1, 'message_content': 1, 'message_time': 1, '_id': False}).limit(count).sort('message_time'))
+        
+        for msg in message_list:
+            if 'message_time' in msg and isinstance(msg['message_time'], datetime):
+                msg['message_time'] = msg['message_time'].strftime('%Y년 %m월 %d일 %H:%M')
+        
+        # # aggregation pipeline
+        # pipeline = [
+        #     {'$match': {'chatroom_id': chatroom_id}},
+        #     {'$sort': {'message_time': -1}},
+        #     {'$limit': count},
+        #     {'$project': {
+        #         '_id': False,
+        #         'uuid': True,
+        #         'message': True,
+        #         'message_time': True
+        #         # 'message_time': {'$dateToString': {'format': '%Y-%m-%dT%H:%M', 'date': '$message_time'}}
+        #     }}
+        # ]
+        # message_list = list(message_collection.aggregate(pipeline))
     except:
         return jsonify({
             'is_success': 0,
@@ -194,18 +201,19 @@ def send_message():
         user_uuid = request.form['uuid']
         message = request.form['message']
 
-        message_time = datetime.now().isoformat()
+        pure_message_time = datetime.now()
+        message_time = pure_message_time.isoformat()
 
         # 메시지 수 증가 처리 및 마지막 채팅 시간 수정
         chatroom_collection.update_one(
             {'_id': ObjectId(chatroom_id)},
-            {'$inc': {'message_count': 1}, '$set': {'last_chat_time': message_time}}
+            {'$inc': {'message_count': 1}, '$set': {'last_chat_time': pure_message_time}}
         )
 
         message_data = {
             'chatroom_id': chatroom_id,
             'message_content': message,
-            'message_time': message_time,
+            'message_time': pure_message_time,
             'uuid': user_uuid
         }
         message_collection.insert_one(message_data)
