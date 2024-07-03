@@ -21,37 +21,31 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
-    <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
-    <script src="{{url_for('static',filename='js/index.js')}}">
-        count = "{{ chatroom_id }}";
-    </script>
-
+    <!-- jungle talk CSS , JS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
+    <link href="{{url_for('static',filename='css/index.css')}}" rel="stylesheet" type="text/css">
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+    <script src="{{url_for('static',filename='js/signup.js')}}"></script>
     <style>
-
-        #logo {
-            max-height: 100px;
+        .hidden-box {
+            display: none;
         }
 
-        /* #chat-box {
-
-            /* 수평 가운데 정렬 (Flexbox 사용 시) */
-
-        /* } */
-
-        .wrap {
-
-            width: 66vw;
-            margin: 0 auto;
-            align-self: center;
-            /* Flexbox 레이아웃 설정 (선택 사항) */
-
-        }
-
-        #header_box {
-            display: flex;
+        .modal::backdrop-blur-3xl {
+            background-color: rgba(255, 255, 255, 0.75);
+            /* Change the background color */
         }
     </style>
+    <script>
+        function pwModal(element) {
+            let tag = $(element);
+            $('passwd').find('#hidden-data').val(
+                tag.find('.chatroom-id').val()
+            )
+            passwd.showModal()
+        }
+
+    </script>
 </head>
 
 
@@ -63,162 +57,169 @@
             </div>
         </div>
         <div class="flex">
-            <button class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] rounded btn-sm btn-login mr-11 shrink-0">
+            <button onclick="login.showModal()"
+                class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] rounded btn-sm btn-login mr-11 shrink-0">
                 login
             </button>
         </div>
     </nav>
+    <div id='chatroom-box'>
 
-    <!-- <div class="wrap bg-base-300 rounded-box  h-screen">
+    </div>
 
-        <div id="header_box">
-            <img id="logo" class="" src="/static/profile/myProfile.jpg" alt="">
+    <dialog id="login" class="modal">
+        <form id="loginform" method="dialog" class="modal-box w-96 bg-[#1F978B]">
+            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center mb-2">Login</p>
+            <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
+            <div class="text-[#FEFEFE] ml-2 text-lg">
+                <p>ID</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input type="text" name="login_id" class="grow" placeholder="아이디를 입력해주세요." />
+                </label>
+                <p>Passwd</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-3">
+                    <input type="text" name="password" class="grow" placeholder="비밀번호를 입력해주세요." />
+                </label>
 
-            <button class="btn btn-ghost btn-login">Ghost</button>
-        </div> -->
-
-    <!-- 이 태그 복사해서 사용 -->
-    <div>
-        <div class="chat-box flex justify-center items-center flex-col border-opacity-50 my-6">
-            <div class="w-1/2 overflow-hidden rounded-lg ring-1 ring-gray-200">
-                <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
-                </div>
-                <div class="p-4 bg-[#1F978B]">
-                    <h3 class="pl-0 text-[#FEFEFE]">채팅방 내용이 들어갑니다.</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="chat-box flex justify-center items-center flex-col border-opacity-50 my-6">
-            <div class="w-1/2 overflow-hidden rounded-lg ring-1 ring-gray-200">
-                <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
-                </div>
-                <div class="p-4 bg-[#1F978B]">
-                    <h3 class="pl-0 text-[#FEFEFE]">채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다.</h3>
+                <div class="flex justify-center items-center space-x-4">
+                    <button onclick="signup.showModal()" type="submit"
+                        class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                        Sign Up
+                    </button>
+                    <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                        login
+                    </button>
                 </div>
             </div>
-        </div>
+    </dialog>
+    <dialog id="newchat" class="modal">
+        <form method="dialog" class="modal-box w-96 bg-[#1F978B]">
+            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center">Chat Info</p>
+            <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
+            <div class="text-[#FEFEFE] ml-2 text-xl">
+                <p>Name</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input type="text" class="grow" placeholder="채팅방 이름을 입력해주세요." />
+                </label>
+                <p>Passwd</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input type="text" class="grow" placeholder="채팅방 비밀번호를 입력해주세요." />
+                </label>
 
-        <div class="chat-box flex justify-center items-center flex-col border-opacity-50 my-4">
+                <p>Description</p>
+
+                <textarea class="textarea textarea-boreded w-full flex items-center gap-2 mb-3"
+                    placeholder="채팅방 설명란 입니다. 채팅방을 소개해주세요.">
+                        </textarea>
+            </div>
+            </div>
+            <div class="grid place-items-center">
+                <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                    Create
+                </button>
+            </div>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="passwd" class="modal">
+        <form id="passwdform" method="dialog" class="modal-box w-80 bg-[#1F978B]">
+            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center my-8">Enter Password</p>
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <svg class="w-8 h-8" fill="none" stroke="#fefefe" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+            <div class="text-[#FEFEFE] text-xl mb-8">
+                <label class="input input-bordered input-md flex items-center mb-5 text-lg">
+                    <input id='input-pw' type="text" class="grow text-sm" placeholder="채팅방 비밀번호를 입력해주세요." />
+                </label>
+
+                <div class="flex justify-center items-center space-x-8 -mb-9">
+                    <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-md text-lg">
+                        Enter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+    <div class="hidden-box">
+        <div class="chatroom-box flex justify-center items-center flex-col border-opacity-50 my-6">
+            <input class="chatroom-id" type="hidden" value="">
             <div class="w-1/2 overflow-hidden rounded-lg ring-1 ring-gray-200">
                 <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
+                    <h2 class="chatroom-name text-lg font-semibold text-gray-800">채팅방 제목</h2>
+                    <!-- 채팅방 참여자 수 -->
+                    <p class="mr-3 text-base font-semibold text-[#696969]">123</p>
                 </div>
-                <div class="p-4 bg-[#1F978B]">
+                <div class="chatroom-description p-4 bg-[#1F978B]">
                     <h3 class="pl-0 text-[#FEFEFE]">채팅방 내용이 들어갑니다.</h3>
                 </div>
             </div>
         </div>
     </div>
-        <!-- 여기까지 -->
 </body>
-<script>
-    const room_id = 1234
-    // 유저 정보 모음 리스트 
-    let users_in_room = [];
-
-    let logined_uuid = 123456;
-
-    // # 채팅방에 참여중인 유저 리스트 요청 API
-    $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: `chatrooms/users?chatroom_id=${room_id}`,
-            data: {},
-            success: function (response) {
-                if (response['is_success'] == 1) {
-                    users_in_room = response['list']
-                    console.log(users_in_room, response['msg'])
-                } else {
-                    console.log(response['msg'])
-                }
-            }
-        })
-    })
-    function makeMSG(uuid, message, time) {
-        let image = None;
-        let name = None;
-        for (let item in users_in_room) {
-            if (item['uuid'] == uuid) {
-                image = item['user_image'];
-                name = item['user_name'];
-            }
-        }
-
-        if (logined_uuid != uuid) {
-            temp_tag =
-                `<div class="chat chat-start">
-            <div class="chat-image avatar">
-                <div class="w-10 rounded-full">
-                    <img alt="Tailwind CSS chat bubble component"
-                        src="${image}"/>
-                </div>
-            </div>
-                <div class="chat-header">
-                    ${name}
-                    <time class="text-xs opacity-50">${time}</time>
-                </div>
-                <div class="chat-bubble">${message}</div>
-        </div>`;
-        } else {
-            temp_tag = `
-            <div class="chat chat-end">
-            <div class="chat-image avatar">
-                <div class="w-10 rounded-full">
-                    <img alt="Tailwind CSS chat bubble component"
-                        src="${image}"/>
-                </div>
-            </div>
-            <div class="chat-header">
-                ${name}
-                <time class="text-xs opacity-50">${time}</time>
-            </div>
-            <div class="chat-bubble">${message}</div>
-            </div>`;
-        }
-        $('#chat-box').append(temp_tag);
-    }
-    function addMSG() {
-        let chat_box = $("#chat-box")
-        $.ajax({
-            type: "GET",
-            url: "/test",
-            data: {},
-            success: function (response) {
-                chat_box.append(makeMSG(123455, "Alice", response['path'], "12:43", "안녕하세요"))
-            }
-        })
-
-
-        console.log("test")
-    }
-    setInterval(routin, 5000)
-
-    // # 특정 채팅방의 채팅기록 요청 API
-    function routin() {
-        $.ajax({
-            type: "GET",
-            url: `/chatrooms/messages?chatroom_id=${room_id}?count=${count}`,
-            data: {},
-            success: function (response) {
-                if (response['is_success'] == 1) {
-                    let list = response['list'];
-                    for (let item in list) {
-                        makeMSG(item['uuid'], item['message'], item['time'])
-                    }
-                    console.log(response['msg'])
-                    // 새로운 메세지 알림 기능 
-                } else {
-                    console.log(response['msg'])
-                }
-
-            }
-        })
-    }
-
-
-</script>
 
 </html>
+
+<dialog id="password" class="modal">
+    <form method="dialog" class="modal-box w-80 bg-[#1F978B]">
+        <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center my-8">Enter Password</p>
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+            <svg class="w-8 h-8" fill="none" stroke="#fefefe" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                </path>
+            </svg>
+        </button>
+        <div class="text-[#FEFEFE] text-xl mb-8">
+            <label class="input input-bordered input-md flex items-center mb-5 text-lg">
+                <input type="text" class="grow text-sm" placeholder="채팅방 비밀번호를 입력해주세요." />
+            </label>
+
+            <div class="flex justify-center items-center space-x-8 -mb-9">
+                <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-md text-lg">
+                    Enter
+                </button>
+            </div>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="signup" class="modal">
+    <form method="dialog" class="modal-box w-auto bg-[#1F978B]">
+        <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center">Sign Up</p>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
+        <div class="text-[#FEFEFE] ml-2 text-lg">
+            <p>ID</p>
+            <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                <input type="text" class="grow" placeholder="아이디를 입력해주세요." />
+                <!-- 중복체크 버튼 -->
+                <button
+                    id="duplicate" class="btn-xs bg-[#696969] hover:bg-[#156f66] text-[#FEFEFE] font-medium rounded flex items-center justify-center -mr-2">
+                    중복체크
+                </button>
+            </label>
+            <p>Passwd</p>
+            <label class="input input-bordered input-sm flex items-center gap-2 mb-3">
+                <input type="text" class="grow" placeholder="비밀번호를 입력해주세요." />
+            </label>
+            <p>Name</p>
+            <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                <input type="text" class="grow" placeholder="이름을 입력해주세요." />
+            </label>
+            <p>Profile image</p>
+            <input type="file" class="file-input file-input-sm file-input-bordered w-auto mb-4" />
+            <!-- 
+                <button class="btn btn-sm sm:btn-sm md:btn-md lg:btn-lg btn-[#FEFEFE]">Responsive</button> -->
+        </div>
+        <div class="grid place-items-center">
+            <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                Register
+            </button>
+        </div>
+        </div>
+    </form>
+</dialog>

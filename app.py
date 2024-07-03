@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for ,redirect
+from flask import Flask, render_template, request, jsonify, url_for
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
@@ -11,10 +11,10 @@ from config.settings import JWT_config
 
 import json
 
+app = Flask(__name__, instance_relative_config=True)
 
 def start_app():
     # Flask 애플리케이션 인스턴스 생성
-    app = Flask(__name__, instance_relative_config=True)
 
     jwt = JWTManager(app)  # app에 JWT 확장 모듈 등록
 
@@ -37,7 +37,6 @@ def start_app():
     # 위에 정의된 custom encoder를 사용하도록 설정한다.
     app.json = CustomJSONProvider(app)
 
-# <<<<<<< server
     # TTL 설정. 채팅방이 마지막 채팅이 올라온지 7일이 지나면 자동으로 삭제되도록 설정(last_chat_time에 설정)
     # client = MongoClient('mongodb://test:test@13.124.143.165', port=27017, uuidRepresentation='standard') # 실제 서버 db
     client = MongoClient('mongodb://webserver:webserver@43.200.205.11',
@@ -57,7 +56,9 @@ def start_app():
 
     app.config['JWT_ACCESS_TOKEN_EXPIRATION'] = timedelta(
         hours=5)  # 액세스토큰 만료시간 1시간으로 설정
-
+    @app.route('/')
+    def home():
+        return render_template('index.html')
     return app
 
 
@@ -65,10 +66,6 @@ if __name__ == '__main__':
     app = start_app()
     app.run('0.0.0.0', port=5000, debug=True)
 
-
-@app.route('/')
-def home():
-    return 'This is Home!'
 
 # # 회원가입 API
 # @app.route('/signup', methods=['POST'])
@@ -200,7 +197,6 @@ def home():
 #     return user_list
 
 # 채팅방 입장하기 API
-# <<<<<<< server
 
 
 # @app.route('/chatrooms/enter', methods=['POST'])
