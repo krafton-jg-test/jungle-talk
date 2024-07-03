@@ -59,7 +59,7 @@ def get_users(uuid_list):
 # 채팅방 페이지 렌더링
 @chat_bp.route('/chatrooms/index')
 def render_chatroom_page():
-    return render_template('chatroom.html')
+    return render_template('chatroom.html', )
 
 # 채팅방 입장
 
@@ -85,7 +85,7 @@ def enter_chatroom():
         return jsonify({
             'is_success': 1,
             'msg': '채팅방에 입장하였습니다.',
-            'redirect_url': url_for('chat.render_chatroom_page', chatroom_id = chatroom_id, count = -1)
+            'redirect_url': url_for('chat.render_chatroom_page', chatroom_id = chatroom_id, uuid = user_uuid)
         })
 
     # 채팅방에 들어와 있는 유저가 아니면 비밀번호 검증
@@ -151,7 +151,7 @@ def get_chatroom():
         if (client_msg_count == -1):
             count = server_msg_count
 
-        elif (server_msg_count >= client_msg_count):
+        elif (server_msg_count > client_msg_count):
             count = server_msg_count - client_msg_count
 
         elif (server_msg_count < client_msg_count):
