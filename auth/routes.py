@@ -1,10 +1,10 @@
-from flask import Blueprint, request, jsonify, url_for,render_template
+from flask import request, jsonify, url_for, render_template
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
+from auth import auth_bp
 import uuid
 import os
-from flask_jwt_extended import create_access_token
-from auth import auth_bp
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 # client = MongoClient('mongodb://test:test@13.124.143.165', port=27017, uuidRepresentation='standard') # 실제 서버 db
 client = MongoClient('mongodb://webserver:webserver@43.200.205.11',
@@ -63,9 +63,12 @@ def check_username_duplication():
         }
     )
 
+# 로그인 페이지 렌더링
+@auth_bp.route('/dashboard', methods=['GET'])
+def render_logined_page():
+    return render_template('index_login.html')
+    
 # 로그인
-
-
 @auth_bp.route('/login', methods=['POST'])
 def login():
     try:
@@ -79,11 +82,13 @@ def login():
 
         # 입력한 비밀번호 해당하는 비밀번호 같으면 토큰 발행
         if (password == target_pw):
-            access_token = create_access_token(identity=login_id)
+            user_uuid = user_collection.find_one({'login_id': login_id})['uuid']
+            access_token = create_access_token(identity=user_uuid)
             return jsonify({
                 'is_success': 1,
-                'template':render_template('chatroom.html'),
-                'access_token': access_token})
+                'access_token': access_token,
+                'msg': '로그인에 성공하였습니다.'
+                })
         else:
             return jsonify({
                 'is_success': 0,
@@ -93,4 +98,27 @@ def login():
         return jsonify({
             'is_success': 0,
             'msg': '로그인에 실패하였습니다.'
+        })
+        
+# 토큰으로 유저 정보 받아오는 api
+@auth_bp.route('/info', methods=['GET'])
+@jwt_required()
+def get_user_info():
+    try:
+        # binary 타입으로 저장된 uuid이기 때문에 UUID 객체로 변환해서 사용해야함
+        current_user = get_jwt_identity()
+        current_user_uuid = uuid.UUID(current_user)
+        
+        user_data = user_collection.find_one({'uuid': current_user_uuid})
+        
+        return jsonify({
+            'is_success': 1,
+            'user_name': user_data['user_name'],
+            'profile_image': user_data['profile_image'],
+            'msg': '유저 정보 불러오기를 성공하였습니다.'
+        })
+    except:
+        return jsonify({
+            'is_success': 0,
+            'msg': '유저 정보 불러오기를 실패하였습니다.'
         })
