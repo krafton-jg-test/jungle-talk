@@ -21,6 +21,10 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
         rel="stylesheet">
 
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <script src="{{url_for('static',filename='js/index.js')}}">
+        count = "{{ chatroom_id }}";
+    </script>
 
     <style>
         * {
@@ -101,7 +105,7 @@
             }
         })
     })
-    function makeMSG(uuid, message, time) {
+    function makeMSG(uuid,message,time) {
         let image = None;
         let name = None;
         for (let item in users_in_room) {
