@@ -11,15 +11,16 @@ from config.settings import JWT_config
 
 import json
 
+
 def start_app():
     # Flask 애플리케이션 인스턴스 생성
     app = Flask(__name__, instance_relative_config=True)
 
-    jwt = JWTManager(app) # app에 JWT 확장 모듈 등록
+    jwt = JWTManager(app)  # app에 JWT 확장 모듈 등록
 
     # jwt 관련 설정 추가
     app.config.from_object(JWT_config)
-    
+
     class CustomJSONEncoder(json.JSONEncoder):
         def default(self, o):
             if isinstance(o, ObjectId):
@@ -39,11 +40,11 @@ def start_app():
     # TTL 설정. 채팅방이 마지막 채팅이 올라온지 7일이 지나면 자동으로 삭제되도록 설정(last_chat_time에 설정)
     # client = MongoClient('mongodb://test:test@13.124.143.165', port=27017, uuidRepresentation='standard') # 실제 서버 db
     client = MongoClient('mongodb://webserver:webserver@43.200.205.11',
-                     port=27017, uuidRepresentation='standard')
+                         port=27017, uuidRepresentation='standard')
     db = client.testdb
     chatroom_collection = db.chatrooms
-    chatroom_collection.create_index("last_chat_time", expireAfterSeconds = 80)
-    
+    chatroom_collection.create_index("last_chat_time", expireAfterSeconds=80)
+
     # 블루프린트 등록
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(chat_bp, url_prefix='/chat')
@@ -55,12 +56,14 @@ def start_app():
 
     app.config['JWT_ACCESS_TOKEN_EXPIRATION'] = timedelta(
         hours=5)  # 액세스토큰 만료시간 1시간으로 설정
-    
+
     return app
-    
+
+
 if __name__ == '__main__':
     app = start_app()
     app.run('0.0.0.0', port=5000, debug=True)
+
 
 @app.route('/')
 def home():
