@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, url_for
+from flask import request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 import uuid

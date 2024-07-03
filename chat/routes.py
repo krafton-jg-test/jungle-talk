@@ -1,5 +1,4 @@
 from flask import request, jsonify, url_for
-from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime

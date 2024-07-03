@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from datetime import timedelta
-from werkzeug.utils import secure_filename
+from flask_jwt_extended import JWTManager
 from auth.routes import auth_bp
 from chat.routes import chat_bp
 from config.settings import JWT_config
@@ -48,14 +46,6 @@ def start_app():
     # 블루프린트 등록
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(chat_bp, url_prefix='/chat')
-
-    app.config.update(
-        DEBUG=True,
-        JWT_SECRET_KEY="TEST"  # JWT 시크릿 키 설정
-    )
-
-    app.config['JWT_ACCESS_TOKEN_EXPIRATION'] = timedelta(
-        hours=5)  # 액세스토큰 만료시간 1시간으로 설정
 
     return app
 
