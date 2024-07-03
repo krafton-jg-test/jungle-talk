@@ -21,6 +21,7 @@
 
 
     <link href =  "{{url_for('static',filename='css/chatroom.css')}}" rel="stylesheet" type="text/css">
+    <link href ="/static/css/styles.css" rel="stylesheet" type="text/css">
     <script src = "{{url_for('static',filename='js/chatroom.js')}}"></script>
 
 </head>
@@ -30,7 +31,7 @@
     <nav class="flex items-center justify-between flex-wrap bg-[#15191E] p-3">
         <div class="flex items-center flex-shrink-0 text-white mr-6">
             <div class="w-32 rounded-full">
-                <img alt="Tailwind CSS chat bubble component" src="/static/profile/myProfile.jpg" />
+                <img alt="jungle talk 로고" src="/static/profile/myProfile.jpg" />
             </div>
         </div>
         <div class="block lg:hidden">
@@ -45,7 +46,7 @@
                 <div class="chat chat-start">
                     <div class="chat-image avatar">
                         <div class="w-10 rounded-full">
-                            <img alt="Tailwind CSS chat bubble component"
+                            <img alt="기본 프로필"
                                 src="/static/profile/default_profile_image.png" />
                         </div>
                     </div>
@@ -71,11 +72,11 @@
         </div>
 
         <footer>
-            <div class="bg-gray-100 fixed-bottom px-4 py-2 ">
+            <div class="bg-gray-100 fixed-bottom my-0 content-end px-4 py-2 ">
                 <div class="flex items-center">
                 
-                    <textarea id ="input-chat"class="w-full custom-border rounded-3xl chat-box-border py-2 px-4 mr-2 resize-none placeholder="메시지를 입력하세요.">
-                        
+                    <textarea id ="input-chat" class="w-full custom-border rounded-3xl chat-box-border py-2 px-4 mr-2 resize-none" placeholder="메시지를 입력하세요.">
+
                     </textarea>
                     <button id="btn-send" class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] font-medium py-2 px-4 rounded-full">
                         Send
