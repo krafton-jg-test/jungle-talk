@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
@@ -6,6 +6,7 @@ from flask_jwt_extended import JWTManager
 from auth.routes import auth_bp
 from chat.routes import chat_bp
 from config.settings import JWT_config
+from datetime import timedelta
 
 import json
 
@@ -51,6 +52,7 @@ def start_app():
 
     app.config['JWT_ACCESS_TOKEN_EXPIRATION'] = timedelta(
         hours=5)  # 액세스토큰 만료시간 5시간으로 설정
+    
     @app.route('/')
     def home():
         return render_template('index.html')
