@@ -186,7 +186,7 @@ def get_chatroom():
         })
     return jsonify({
         'list': message_list,
-        'count': server_msg_count,
+        'count': count,
         'is_success': 1,
         'msg': '채팅기록 불러오기에 성공하였습니다.'
     })
