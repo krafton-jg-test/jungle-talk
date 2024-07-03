@@ -85,7 +85,7 @@ def enter_chatroom():
         return jsonify({
             'is_success': 1,
             'msg': '채팅방에 입장하였습니다.',
-            'redirect_url': url_for('chat.get_chatroom', chatroom_id = chatroom_id, count = -1)
+            'redirect_url': url_for('render_chatroom_page', chatroom_id = chatroom_id, count = -1)
         })
 
     # 채팅방에 들어와 있는 유저가 아니면 비밀번호 검증
@@ -105,7 +105,7 @@ def enter_chatroom():
     return jsonify({
             'is_success': 1,
             'msg': '채팅방에 입장하였습니다.',
-            'redirect_url': url_for('chat.get_chatroom', chatroom_id = chatroom_id, count = -1)
+            'redirect_url': url_for('render_chatroom_page', chatroom_id = chatroom_id, count = -1)
         })
 
 # 모든 채팅방 정보 불러오기(메인페이지)
