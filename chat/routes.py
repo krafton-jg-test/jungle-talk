@@ -259,7 +259,8 @@ def create_chatroom():
             'message_count': 0,
             "last_chat_time": last_chat_time  # TTL 지나면 삭제되도록 설정된 컬럼
         }
-        chatroom_collection.insert_one(chatroom_data)
+        result_data = chatroom_collection.insert_one(chatroom_data)
+        chatroom_id = result_data.inserted_id
 
     except:
         return jsonify({
@@ -269,5 +270,6 @@ def create_chatroom():
 
     return jsonify({
         'is_success': 1,
-        'msg': '채팅방 생성에 성공하였습니다.'
+        'msg': '채팅방 생성에 성공하였습니다.',
+        'chatroom_id': chatroom_id
     })
