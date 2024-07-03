@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for ,redirect
+from flask import Flask, render_template, request, jsonify, url_for
 from bson import ObjectId
 from pymongo import MongoClient
 from flask.json.provider import JSONProvider
@@ -37,7 +37,6 @@ def start_app():
     # 위에 정의된 custom encoder를 사용하도록 설정한다.
     app.json = CustomJSONProvider(app)
 
-# <<<<<<< server
     # TTL 설정. 채팅방이 마지막 채팅이 올라온지 7일이 지나면 자동으로 삭제되도록 설정(last_chat_time에 설정)
     # client = MongoClient('mongodb://test:test@13.124.143.165', port=27017, uuidRepresentation='standard') # 실제 서버 db
     client = MongoClient('mongodb://webserver:webserver@43.200.205.11',
@@ -200,7 +199,6 @@ def home():
 #     return user_list
 
 # 채팅방 입장하기 API
-# <<<<<<< server
 
 
 # @app.route('/chatrooms/enter', methods=['POST'])
