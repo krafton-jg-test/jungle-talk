@@ -85,7 +85,7 @@ def enter_chatroom():
         return jsonify({
             'is_success': 1,
             'msg': '채팅방에 입장하였습니다.',
-            'redirect_url': url_for('chat.get_chatroom', chatroom_id = chatroom_id, count = -1)
+            'redirect_url': url_for('chat.render_chatroom_page', chatroom_id = chatroom_id, count = -1)
         })
 
     # 채팅방에 들어와 있는 유저가 아니면 비밀번호 검증
@@ -105,7 +105,7 @@ def enter_chatroom():
     return jsonify({
             'is_success': 1,
             'msg': '채팅방에 입장하였습니다.',
-            'redirect_url': url_for('chat.get_chatroom', chatroom_id = chatroom_id, count = -1)
+            'redirect_url': url_for('chat.render_chatroom_page', chatroom_id = chatroom_id, count = -1)
         })
 
 # 모든 채팅방 정보 불러오기(메인페이지)
@@ -224,6 +224,7 @@ def send_message():
         })
 
     return jsonify({
+        'chatroom_id': chatroom_id,
         'message_time': message_time,
         'is_success': 1,
         'msg': '채팅 입력에 성공하였습니다.'
@@ -258,7 +259,8 @@ def create_chatroom():
             'message_count': 0,
             "last_chat_time": last_chat_time  # TTL 지나면 삭제되도록 설정된 컬럼
         }
-        chatroom_collection.insert_one(chatroom_data)
+        result_data = chatroom_collection.insert_one(chatroom_data)
+        chatroom_id = result_data.inserted_id
 
     except:
         return jsonify({
@@ -268,5 +270,6 @@ def create_chatroom():
 
     return jsonify({
         'is_success': 1,
-        'msg': '채팅방 생성에 성공하였습니다.'
+        'msg': '채팅방 생성에 성공하였습니다.',
+        'chatroom_id': chatroom_id
     })
