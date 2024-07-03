@@ -19,6 +19,10 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <script src="{{url_for('static',filename='js/index.js')}}">
+        count = "{{ chatroom_id }}";
+    </script>
 
     <style>
         #logo {
@@ -93,6 +97,7 @@
             }
         })    
     })
+    
     function makeMSG(uuid,message,time) {
         let image = None;
         let name = None;
