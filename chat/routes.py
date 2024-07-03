@@ -224,6 +224,7 @@ def send_message():
         })
 
     return jsonify({
+        'chatroom_id': chatroom_id,
         'message_time': message_time,
         'is_success': 1,
         'msg': '채팅 입력에 성공하였습니다.'
