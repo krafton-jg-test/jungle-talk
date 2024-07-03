@@ -11,10 +11,10 @@ from config.settings import JWT_config
 
 import json
 
+app = Flask(__name__, instance_relative_config=True)
 
 def start_app():
     # Flask 애플리케이션 인스턴스 생성
-    app = Flask(__name__, instance_relative_config=True)
 
     jwt = JWTManager(app)  # app에 JWT 확장 모듈 등록
 
@@ -56,7 +56,9 @@ def start_app():
 
     app.config['JWT_ACCESS_TOKEN_EXPIRATION'] = timedelta(
         hours=5)  # 액세스토큰 만료시간 1시간으로 설정
-
+    @app.route('/')
+    def home():
+        return render_template('index.html')
     return app
 
 
@@ -64,10 +66,6 @@ if __name__ == '__main__':
     app = start_app()
     app.run('0.0.0.0', port=5000, debug=True)
 
-
-@app.route('/')
-def home():
-    return 'This is Home!'
 
 # # 회원가입 API
 # @app.route('/signup', methods=['POST'])

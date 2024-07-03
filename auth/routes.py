@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, url_for
+from flask import Blueprint, request, jsonify, url_for,render_template
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 import uuid
@@ -72,7 +72,7 @@ def login():
         # 유저의 아이디, 비밀번호 입력받음
         login_id = request.form['login_id']
         password = request.form['password']
-
+        print(login_id,password)
         # 유저의 로그인아이디에 해당하는 비밀번호 조회
         target_pw = user_collection.find_one(
             {'login_id': login_id})['password']
@@ -80,11 +80,14 @@ def login():
         # 입력한 비밀번호 해당하는 비밀번호 같으면 토큰 발행
         if (password == target_pw):
             access_token = create_access_token(identity=login_id)
-            return jsonify({'access_token': access_token})
+            return jsonify({
+                'is_success': 1,
+                'template':render_template('chatroom.html'),
+                'access_token': access_token})
         else:
             return jsonify({
                 'is_success': 0,
-                'msg': '로그인에 실패하였습니다.'
+                'msg': '로그인에 실패하였습니다.1'
             })
     except:
         return jsonify({

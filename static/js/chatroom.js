@@ -57,11 +57,7 @@ function requestUserData(){
         }
     })   
 }
-
-let access_token;
-
 let count =-1;
-
 
 $(document).ready( function () {
     requestUserData()
