@@ -2,13 +2,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <link href ="/static/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.tailwindcss.com"></script>
-<style>
-          .modal::backdrop-blur-3xl {
-        background-color: rgba(255, 255, 255, 0.75); /* Change the background color */
-      }
-</style>
+    <style>
+        .modal::backdrop-blur-3xl {
+            background-color: rgba(255, 255, 255, 0.75);
+            /* Change the background color */
+        }
+    </style>
 </head>
 
 <body>
@@ -18,42 +19,44 @@
     <dialog id="sign_up" class="modal">
         <form method="dialog" class="modal-box w-auto bg-[#1F978B]">
             <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center">Sign Up</p>
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
-                <div class="text-[#FEFEFE] ml-2 text-lg">
-                    <p>ID</p>
-                    <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
-                        <input type="text" class="grow" placeholder="아이디를 입력해주세요." />
-                        <!-- 중복체크 버튼 -->
-                        <button class="btn-xs bg-[#696969] hover:bg-[#156f66] text-[#FEFEFE] font-medium rounded flex items-center justify-center -mr-2">
-                            중복체크
-                        </button>
-                    </label>
-                    <p>Passwd</p>
-                    <label class="input input-bordered input-sm flex items-center gap-2 mb-3">
-                        <input type="text" class="grow" placeholder="비밀번호를 입력해주세요." />
-                    </label>
-                    <p>Name</p>
-                    <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
-                        <input type="text" class="grow" placeholder="이름을 입력해주세요." />
-                    </label>
-                    <p>Profile image</p>
-                    <input type="file" class="file-input file-input-sm file-input-bordered w-auto mb-4" />
-                    <!-- 
-                        <button class="btn btn-sm sm:btn-sm md:btn-md lg:btn-lg btn-[#FEFEFE]">Responsive</button> -->
-                    </div>
-                    <div class="grid place-items-center">
-                        <button type="submit"class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
-                            Register
-                        </button>
-                    </div>
+            <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
+            <div class="text-[#FEFEFE] ml-2 text-lg">
+                <p>ID</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input type="text" class="grow" placeholder="아이디를 입력해주세요." />
+                    <!-- 중복체크 버튼 -->
+                    <button
+                        class="btn-xs bg-[#696969] hover:bg-[#156f66] text-[#FEFEFE] font-medium rounded flex items-center justify-center -mr-2">
+                        중복체크
+                    </button>
+                </label>
+                <p>Passwd</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-3">
+                    <input type="text" class="grow" placeholder="비밀번호를 입력해주세요." />
+                </label>
+                <p>Name</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input type="text" class="grow" placeholder="이름을 입력해주세요." />
+                </label>
+                <p>Profile image</p>
+                <input type="file" class="file-input file-input-sm file-input-bordered w-auto mb-4" />
+                <!-- 
+                <button class="btn btn-sm sm:btn-sm md:btn-md lg:btn-lg btn-[#FEFEFE]">Responsive</button> -->
+                </div>
+                <div class="grid place-items-center">
+                    <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                        Register
+                    </button>
                 </div>
             </div>
-        </dialog>
-    </form>
-    </body>
-    
-    <br>
-    
+        </form>
+    </dialog>
+
+</body>
+
+<br>
+
 <!-- <div>
     <label class="input input-bordered flex items-center gap-2 my-3">
         Name
