@@ -1,5 +1,5 @@
 $(document).ready( function() {
-    
+    //채팅방 입장하기 
     $('.chat-box').on('click',function() {
         let chatroom_id = 1234;
         let chatroom_pw = 1234;

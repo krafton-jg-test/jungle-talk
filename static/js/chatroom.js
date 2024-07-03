@@ -1,6 +1,6 @@
 
 let room_id = 1234;
-
+////////////// 테스트
 // 유저 정보 모음 리스트 
 class User {
     static count = 0;
@@ -37,9 +37,11 @@ class UserBuilder {
         return new User(this.id,this.name,this.image)
     }
 }
+//////////////
+
 let user_list = [];
 
-// # 채팅방에 참여중인 유저 리스트 요청 API
+// # 채팅방에 참여중인 유저 리스트 요청 API -> done
 function requestUserData(){
     $.ajax({
         type:"GET",
@@ -47,9 +49,7 @@ function requestUserData(){
         data:{},
         success:function(response){
             if (response['is_success']==1){
-
                 user_list = response['list']
-
                 console.log(users_in_room,response['msg'])
             }else{
                 console.log(response['msg'])
@@ -71,7 +71,7 @@ $(document).ready( function () {
     setInterval(routine, 5000)
 })
 
-// 메세지를 생성하는 함수
+// 메세지를 생성하는 함수 -> done
 function makeMSG(uuid,message,time) {
     let image = None;
     let name = None;
@@ -132,12 +132,10 @@ function addMSG() {
         }
     })
    
-    
     console.log("test")
 }
 
-
-// # 특정 채팅방의 채팅기록 요청 API
+// # 특정 채팅방의 채팅기록 요청 API -> done
 function routine(){
     $.ajax({
         type:"GET",
