@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- tailwind css -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
+    <!-- <script src="{{url_for('static',filename='js/index.js')}}"></script> -->
+    <script src="{{url_for('static',filename='js/logined.js')}}"></script>
+
+    <style>
+
+        #logo {
+            max-height: 100px;
+        }
+
+        /* #chat-box {
+
+            /* 수평 가운데 정렬 (Flexbox 사용 시) */
+
+        /* } */
+
+        .wrap {
+
+            width: 66vw;
+            margin: 0 auto;
+            align-self: center;
+            /* Flexbox 레이아웃 설정 (선택 사항) */
+
+        }
+
+        #header_box {
+            display: flex;
+        }
+    </style>
+    <script>
+        function pwModal(element) {
+            let tag = $(element);
+            console.log(tag.find('.chatroom-id').val())
+            $('#passwd').find('#hidden-data').val(
+                tag.find('.chatroom-id').val()
+            )
+            passwd.showModal()
+        }
+        function showSigiUpModal(){
+            
+        }
+    </script>
+</head>
+
+
+<body>
+    <nav class="flex items-center justify-between flex-wrap bg-[#15191E]">
+        <div class="flex items-center flex-shrink-0 text-white ml-8">
+            <div class="w-32">
+                <img alt="jungle talk 로고" src="/static/profile/myProfile.jpg" />
+            </div>
+        </div>
+        <div class="absolute left-1/2 transform -translate-x-1/2">
+            <button onclick="newchat.showModal()"class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] rounded btn-sm btn-login">
+                New Chat
+            </button>
+            </div>
+        <div class="flex">
+            <button id="logout" class="bg-[#1F978B] hover:bg-[#156f66] text-[#FEFEFE] rounded btn-sm btn-login mr-11">
+                Logout
+            </button>
+        </div>
+    </nav>
+    <div id='chatroom-box'>
+
+    </div>
+    <dialog id="passwd" class="modal">
+        <form id="passwdform" method="dialog" class="modal-box w-80 bg-[#1F978B]">
+            <input id="hidden-data" type="hidden" val="">
+            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center my-8">Enter Password</p>
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <svg class="w-8 h-8" fill="none" stroke="#fefefe" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+            <div class="text-[#FEFEFE] text-xl mb-8">
+                <label class="input input-bordered input-md flex items-center mb-5 text-lg">
+                    <input id='input-pw' type="text" class="grow text-sm" placeholder="채팅방 비밀번호를 입력해주세요." />
+                </label>
+
+                <div class="flex justify-center items-center space-x-8 -mb-9">
+                    <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-md text-lg">
+                        Enter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="newchat" class="modal">
+        <form id="newchatform" method="dialog" class="modal-box w-96 bg-[#1F978B]">
+            <p class="text-[#FEFEFE] text-3xl font-bold grid place-items-center">Chat Info</p>
+            <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 mr-1 text-xl text-[#1D232A]">✕</button>
+            <div class="text-[#FEFEFE] ml-2 text-xl">
+                <p>Name</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input name="chatroom_name"type="text" class="grow" placeholder="채팅방 이름을 입력해주세요." />
+                </label>
+                <p>Passwd</p>
+                <label class="input input-bordered input-sm flex items-center gap-2 mb-2">
+                    <input name="chatroom_pw"type="text" class="grow" placeholder="채팅방 비밀번호를 입력해주세요." />
+                </label>
+
+                <p>Description</p>
+
+                <textarea name="description" class="textarea textarea-boreded w-full flex items-center gap-2 mb-3"
+                    placeholder="채팅방 설명란 입니다. 채팅방을 소개해주세요.">
+                        </textarea>
+            </div>
+            </div>
+            <div class="grid place-items-center">
+                <button type="submit" class="bg-[#696969] hover:bg-[#156f66] text-white rounded btn-sm -mb-2">
+                    Create
+                </button>
+            </div>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- <div class="wrap bg-base-300 rounded-box  h-screen">
+
+        <div id="header_box">
+            <img id="logo" class="" src="/static/profile/myProfile.jpg" alt="">
+
+            <button class="btn btn-ghost btn-login">Ghost</button>
+        </div> -->
+
+    <!-- 이 태그 복사해서 사용 -->
+    <!-- <div>
+        <div class="chat-box flex justify-center items-center flex-col border-opacity-50 my-6">
+            <div class="w-1/2 overflow-hidden rounded-lg ring-1 ring-gray-200">
+                <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
+                </div>
+                <div class="p-4 bg-[#1F978B]">
+                    <h3 class="pl-0 text-[#FEFEFE]">채팅방 내용이 들어갑니다.</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-box flex justify-center items-center flex-col border-opacity-50 my-6">
+            <div class="w-1/2 overflow-hidden rounded-lg ring-1 ring-gray-200">
+                <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
+                </div>
+                <div class="p-4 bg-[#1F978B]">
+                    <h3 class="pl-0 text-[#FEFEFE]">채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다. 채팅방 내용이 들어갑니다.</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-box flex justify-center items-center flex-col border-opacity-50 my-4">
+            <div class="w-1/2 overflow-hidden rounded-lg ring-1 ring-gray-200">
+                <div class="flex items-center justify-between pl-4 bg-gray-100 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-800">채팅방 제목</h2>
+                </div>
+                <div class="p-4 bg-[#1F978B]">
+                    <h3 class="pl-0 text-[#FEFEFE]">채팅방 내용이 들어갑니다.</h3>
+                </div>
+            </div>
+        </div>
+    </div> -->
+        <!-- 여기까지 -->
+</body>
+</html>
